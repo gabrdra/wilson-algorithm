@@ -96,7 +96,6 @@ namespace WilsonAlgorithm
                 DirectionOfMovement = directionOfMovement;
             }
         }
-        
         public AdjacentReturn giveAdjacent(int randomSeed, int width, int height)
         {
             Random random = new Random(randomSeed);
@@ -146,6 +145,27 @@ namespace WilsonAlgorithm
                 //coordinates[0]--;
             }
             return adjacentReturn;
+        }
+        public override string ToString()
+        {
+            String returnString = "[" + X + "," + Y + "] ";
+            if (North)
+                returnString += "N:T ";
+            else
+                returnString += "N:F ";
+            if (South)
+                returnString += "S:T ";
+            else
+                returnString += "S:F ";
+            if (East)
+                returnString += "E:T ";
+            else
+                returnString += "E:F ";
+            if (West)
+                returnString += "W:T ";
+            else
+                returnString += "W:F ";
+            return returnString;
         }
     }
 }
