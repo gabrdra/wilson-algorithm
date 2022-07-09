@@ -47,7 +47,6 @@ namespace WilsonAlgorithm
                             break;
                         }
                     }
-                    Console.WriteLine(notVisited.Count);
                     previousVertex = currentVertex;
                 }
                 
