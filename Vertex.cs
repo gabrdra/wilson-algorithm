@@ -8,16 +8,20 @@ namespace WilsonAlgorithm
 {
     internal class Vertex
     {
-        public Vertex(int x, int y)
+        public Vertex(int x, int y, int width, int height)
         {
             X = x;
             Y = y;
+            Width = width;
+            Height = height;
         }
         public int X { get; set; }
         public int Y { get; set; }
-        
 
-        public enum Directions 
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        public enum Directions
         {
             north,
             south,
@@ -30,27 +34,10 @@ namespace WilsonAlgorithm
         public bool South { get; set; }
         public bool East { get; set; }
         public bool West { get; set; }
-        
-        public void setBoolOnDirectionAndOnOpositeToTrue()
-        {
-            switch (Direction)
-            {
-                case Directions.north:
-                case Directions.south:
-                    North = true;
-                    South = true;
-                    break;
-                case Directions.east:
-                case Directions.west:
-                    East = true;
-                    West = true;
-                    break;
 
-            }
-        }
-        public void setBoolOnDirectionToTrue()
+        public void setBoolOnDirectionToTrue(Directions direction)
         {
-            switch (Direction)
+            switch (direction)
             {
                 case Directions.north:
                     North = true;
@@ -66,9 +53,9 @@ namespace WilsonAlgorithm
                     break;
             }
         }
-        public void setBoolOnOpositeDirectionToTrue()
+        public void setBoolOnOpositeDirectionToTrue(Directions direction)
         {
-            switch (Direction)
+            switch (direction)
             {
                 case Directions.north:
                     South = true;
@@ -88,7 +75,7 @@ namespace WilsonAlgorithm
         {
             public int X { get; set; }
             public int Y { get; set; }
-            public Directions DirectionOfMovement{get; set; }
+            public Directions DirectionOfMovement { get; set; }
             public AdjacentReturn(int x, int y, Directions directionOfMovement)
             {
                 X = x;
@@ -96,10 +83,10 @@ namespace WilsonAlgorithm
                 DirectionOfMovement = directionOfMovement;
             }
         }
-        public AdjacentReturn giveAdjacent(int randomSeed, int width, int height)
+        public AdjacentReturn giveAdjacent(int randomSeed)
         {
-            Random random = new Random(randomSeed);
-            Directions[] allDirections = Enum.GetValues<Directions>();
+            System.Random random = new System.Random(randomSeed);
+            Directions[] allDirections = (Directions[])Enum.GetValues(typeof(Directions));
             Directions randomDirection = (Directions)allDirections.GetValue(random.Next(4));
             bool viableAdjacent = false;
             while (!viableAdjacent)
@@ -110,15 +97,15 @@ namespace WilsonAlgorithm
                 {
                     viableAdjacent = false;
                 }
-                else if(X == width-1 && randomDirection == Directions.east)
+                else if (X == Width - 1 && randomDirection == Directions.east)
                 {
                     viableAdjacent = false;
                 }
-                else if (Y == 0 && randomDirection == Directions.north)
+                else if (Y == Height - 1 && randomDirection == Directions.north)
                 {
                     viableAdjacent = false;
                 }
-                else if (Y == height - 1 && randomDirection == Directions.south)
+                else if (Y == 0 && randomDirection == Directions.south)
                 {
                     viableAdjacent = false;
                 }
@@ -126,12 +113,12 @@ namespace WilsonAlgorithm
             AdjacentReturn adjacentReturn = new AdjacentReturn(X, Y, randomDirection);
             if (randomDirection == Directions.north)
             {
-                adjacentReturn.Y--;
+                adjacentReturn.Y++;
                 //coordinates[1]--;
             }
             else if (randomDirection == Directions.south)
             {
-                adjacentReturn.Y++;
+                adjacentReturn.Y--;
                 //coordinates[1]++;
             }
             else if (randomDirection == Directions.east)
