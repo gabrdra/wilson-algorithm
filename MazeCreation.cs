@@ -22,28 +22,25 @@ namespace WilsonAlgorithm
                     notVisited.Add(newVertex);
                 }
             }
-            Vertex firstVertex = notVisited.ElementAt(random.Next(notVisited.Count));//this enumerates all elements so it's quite inefficient but I don't know any better way to do it
+            Vertex firstVertex = notVisited.ElementAt(random.Next(notVisited.Count));
             notVisited.Remove(firstVertex);
             while (notVisited.Count > 0)
             {
-                //Console.WriteLine("inside outer while");
                 Vertex currentVertex = notVisited.ElementAt(random.Next(notVisited.Count));
-                //notVisited.Remove(currentVertex);
                 Queue<Vertex> currentPath = new Queue<Vertex>();
                 currentPath.Enqueue(currentVertex);
                 while (notVisited.Contains(currentVertex))
                 {
-                    //Console.WriteLine("inside inner while");
                     Vertex.AdjacentReturn adjacentReturn = currentVertex.giveAdjacent(random.Next());
                     currentVertex.Direction = adjacentReturn.DirectionOfMovement;
                     currentVertex = maze[adjacentReturn.X, adjacentReturn.Y];
-                    //Debug.Log(currentVertex);
                     int firstInstance = -1;
                     for (int i = 0; i < currentPath.Count; i++)
                     {
                         if (currentPath.ElementAt(i).Equals(currentVertex))
                         {
                             firstInstance = i;
+                            break;
                         }
                     }
                     if (firstInstance != -1)
@@ -55,7 +52,6 @@ namespace WilsonAlgorithm
                         currentPath.Enqueue(currentVertex);
                     }
                 }
-
                 Vertex firstVertexOnPath = currentPath.Dequeue();
                 notVisited.Remove(firstVertexOnPath);
                 firstVertexOnPath.setBoolOnDirectionToTrue(firstVertexOnPath.Direction);
