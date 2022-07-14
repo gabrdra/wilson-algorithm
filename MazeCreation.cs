@@ -55,22 +55,19 @@ namespace WilsonAlgorithm
                 Vertex firstVertexOnPath = currentPath.Dequeue();
                 notVisited.Remove(firstVertexOnPath);
                 firstVertexOnPath.setBoolOnDirectionToTrue(firstVertexOnPath.Direction);
-                if (currentPath.Count != 0)
+                Vertex previousVertex = firstVertexOnPath;
+                while (currentPath.Count > 1)
                 {
-                    Vertex previousVertex = firstVertexOnPath;
-                    while (currentPath.Count > 1)
-                    {
-                        Vertex localVertex = currentPath.Dequeue();
-                        notVisited.Remove(localVertex);
-                        localVertex.setBoolOnOpositeDirectionToTrue(previousVertex.Direction);
-                        localVertex.setBoolOnDirectionToTrue(localVertex.Direction);
-                        previousVertex = localVertex;
-                    }
-                    Vertex lastVertexOnPath = currentPath.Dequeue();
-                    lastVertexOnPath.Direction = previousVertex.Direction;
-                    notVisited.Remove(lastVertexOnPath);
-                    lastVertexOnPath.setBoolOnOpositeDirectionToTrue(previousVertex.Direction);
+                    Vertex localVertex = currentPath.Dequeue();
+                    notVisited.Remove(localVertex);
+                    localVertex.setBoolOnOpositeDirectionToTrue(previousVertex.Direction);
+                    localVertex.setBoolOnDirectionToTrue(localVertex.Direction);
+                    previousVertex = localVertex;
                 }
+                Vertex lastVertexOnPath = currentPath.Dequeue();
+                lastVertexOnPath.Direction = previousVertex.Direction;
+                notVisited.Remove(lastVertexOnPath);
+                lastVertexOnPath.setBoolOnOpositeDirectionToTrue(previousVertex.Direction);
             }
             return maze;
         }
